@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+    <!--目标对象，要拦截的类-->
+    <bean id="userServiceImpl" class="cn.eleven.aop.xml.UserServiceImpl"/>
+
+    <!-- Advice通知/增强类，拦截后的处理逻辑类 -->
+    <bean id="logAfterAndBeforeAspect" class="cn.eleven.aop.xml.LogAfterAndBeforeAspect"/>
+    <!-- Advice通知/增强类，拦截后的处理逻辑类 -->
+    <bean id="logAroundAspect" class="cn.eleven.aop.xml.LogAroundAspect"/>
+
+    <aop:config>
+        <!-- Joinpoint 切入点 也就是拦截这个方法 -->
+        <aop:pointcut expression="execution(* cn.eleven.aop.xml.UserService.insert(..))"
+                      id="insertInterceptorMethod"/>
+
+        <!-- Advice通知类型 有前置通知，后置通知，异常通知，最终通知，环绕通知-->
+        <aop:aspect ref="logAfterAndBeforeAspect">
+            <!-- 前置通知: 目标方法执行前执行 -->
+            <aop:before method="before" pointcut-ref="insertInterceptorMethod" />
+            <!-- 后置通知：目标方法执行后执行 -->
+            <aop:after  method="after" pointcut-ref="insertInterceptorMethod"/>
+        </aop:aspect>
+
+    </aop:config>
+    <aop:config>
+        <!-- 拦截这个方法 -->
+        <aop:pointcut expression="execution(* cn.eleven.aop.xml.UserService.deleteAll())"
+                      id="deleteAllInterceptorMethod"/>
+
+        <aop:aspect ref="logAroundAspect">
+            <!-- 环绕通知：目标方法执行前后都要执行 -->
+            <aop:around method="around" pointcut-ref="deleteAllInterceptorMethod"/>
+        </aop:aspect>
+
+    </aop:config>
+</beans>
