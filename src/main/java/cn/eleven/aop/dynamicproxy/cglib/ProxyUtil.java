@@ -23,9 +23,7 @@ public class ProxyUtil {
         return enhancer.create();
     }
 
-    /**
-     * 需要实现InvocationHandler接口
-     */
+   
     private static class MyMethodInterceptor implements MethodInterceptor {
 
         public Object intercept(Object object, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
