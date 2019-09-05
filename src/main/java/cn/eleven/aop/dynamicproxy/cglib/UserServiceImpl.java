@@ -6,7 +6,7 @@ package cn.eleven.aop.dynamicproxy.cglib;
  * @date: 2019-09-04 19:22
  * @author: 十一
  */
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl  {
 
     public void insert(String name, int age) {
         System.out.println("xml-保存信息，name：" + name + "，age: " + age);
